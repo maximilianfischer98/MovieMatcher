@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_nav"
+    app:startDestination="@id/movies">
+
+    <fragment
+        android:id="@+id/movies"
+        android:name="com.example.moviematcher.navigationbar.Movies"
+        android:label="Movies"
+        tools:layout="@layout/fragment_movies" />
+    <fragment
+        android:id="@+id/matches"
+        android:name="com.example.moviematcher.navigationbar.matches.Matches"
+        android:label="Matches"
+        tools:layout="@layout/fragment_matches" />
+    <fragment
+        android:id="@+id/friends"
+        android:name="com.example.moviematcher.navigationbar.friends.Friends"
+        android:label="Friends"
+        tools:layout="@layout/fragment_friends" />
+</navigation>

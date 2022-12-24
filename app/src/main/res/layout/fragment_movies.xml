@@ -1,0 +1,109 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#2E2D2D"
+    android:orientation="vertical"
+    tools:context=".navigationbar.Movies">
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonNo"
+            android:layout_width="104dp"
+            android:layout_height="101dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="95dp"
+            android:background="@drawable/button_round_no"
+            android:text="X"
+            android:textColor="@color/white"
+            android:textSize="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonYes"
+            android:layout_width="104dp"
+            android:layout_height="101dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="95dp"
+            android:background="@drawable/button_round_yes"
+            android:text="✓"
+            android:textColor="@color/white"
+            android:textSize="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="390dp"
+            android:layout_height="593dp"
+            android:layout_marginBottom="14dp"
+            app:layout_constraintBottom_toTopOf="@+id/buttonNo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="507dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="69dp"
+                    android:layout_marginEnd="5dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@tools:sample/backgrounds/scenic" />
+
+                <TextView
+                    android:id="@+id/titel"
+                    android:layout_width="359dp"
+                    android:layout_height="47dp"
+                    android:layout_above="@+id/description"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="19dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@color/darkgreytransparent"
+                    android:text="Title"
+                    android:textColor="@color/white"
+                    android:textSize="25dp" />
+
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="364dp"
+                    android:layout_height="153dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="11dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@color/darkgreytransparent"
+                    android:text="Beispiel Text: hier steht ein beispiel text"
+                    android:textColor="@color/white" />
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/PlayButton"
+            android:layout_width="64dp"
+            android:layout_height="57dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginBottom="120dp"
+            android:background="@drawable/playbtn"
+            android:text="▶"
+            android:textSize="25dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/buttonYes"
+            app:layout_constraintHorizontal_bias="0.483"
+            app:layout_constraintStart_toEndOf="@+id/buttonNo" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
