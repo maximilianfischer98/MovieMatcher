@@ -2,12 +2,19 @@ package com.example.moviematcher.navigationbar.friends
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.constraintlayout.motion.widget.KeyFrames
 import androidx.recyclerview.widget.RecyclerView
+import com.example.moviematcher.R
 import com.example.moviematcher.databinding.CardFriendsBinding
 
 
-class FriendsAdapter(private var friends: ArrayList<FriendsModel>) :
+
+
+
+class FriendsAdapter constructor (private var friends: ArrayList<FriendsModel>) :
     RecyclerView.Adapter<FriendsAdapter.MainHolder>() {
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
         val binding = CardFriendsBinding
@@ -21,6 +28,11 @@ class FriendsAdapter(private var friends: ArrayList<FriendsModel>) :
         holder.bind(friend)
     }
 
+    fun updateData(newData: ArrayList<FriendsModel>) {
+        friends = newData
+        notifyDataSetChanged()
+    }
+
     override fun getItemCount(): Int = friends.size
 
     class MainHolder(private val binding: CardFriendsBinding) :
@@ -28,7 +40,6 @@ class FriendsAdapter(private var friends: ArrayList<FriendsModel>) :
 
         fun bind(friends: FriendsModel) {
             binding.username.text = friends.username
-            binding.realname.text = friends.realname
 
         }
     }

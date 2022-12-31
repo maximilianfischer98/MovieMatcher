@@ -21,6 +21,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginTop="5dp"
             android:textSize="22sp"
+
             tools:text="Realname" />
 
         <TextView
@@ -30,9 +31,21 @@
             android:layout_alignParentTop="true"
             android:layout_marginTop="40dp"
             android:textSize="15sp"
+
             tools:text="Username" />
 
-
+        <TextView
+            android:id="@+id/arrow"
+            android:layout_width="35dp"
+            android:layout_height="33dp"
+            android:layout_alignTop="@+id/moviename"
+            android:layout_alignBottom="@+id/moviename"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="-31dp"
+            android:text="ᐅ"
+            android:textSize="25dp" />
 
 
     </RelativeLayout>

@@ -9,15 +9,12 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.moviematcher.R
-import com.example.moviematcher.data.Movie
-import com.example.moviematcher.data.User
 import com.example.moviematcher.databinding.ActivityRegistrationBinding
+
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 
 
@@ -51,15 +48,14 @@ class Registration: AppCompatActivity() {
                 var username = binding.username.text.toString()
                 var lastname = binding.name.text.toString()
 
-            //For test reasons I'm your first friend in the App but you can add more try it out ;)
-                var friends = arrayListOf("max98")
+
 
 
 
                 if (email.isNotEmpty() && password.isNotEmpty() ) {
 
                 createUser(email, password)
-                    writeNewUserinDB(email,username,lastname,friends)
+                    writeNewUserinDB(email,username,lastname,)
 
 
                 }
@@ -103,11 +99,11 @@ class Registration: AppCompatActivity() {
         }
     }
 
-    fun writeNewUserinDB(email: String, username: String, name: String,friends: ArrayList<String>) {
+    fun writeNewUserinDB(email: String, username: String, name: String) {
 
 
         database = Firebase.database.reference
-        val user = User(email, username,name,friends)
+        val user = com.example.moviematcher.data.User(email,username,name)
 
 
         database.child("users").child(username).setValue(user)

@@ -2,48 +2,211 @@ package com.example.moviematcher
 
 import MatchesModel
 import android.app.Application
-import android.content.Intent
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.example.moviematcher.choosecategory.Categorys
-import com.example.moviematcher.choosecategory.ChooseCategoryModel
-import com.example.moviematcher.data.Movie
-import com.example.moviematcher.login.LoginScreen
+
+
 import com.example.moviematcher.navigationbar.friends.FriendsModel
+import com.example.moviematcher.navigationbar.matches.MatchesAdapter
+import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 
 class MainApp : Application() {
 
-    val categorys = ArrayList<ChooseCategoryModel>()
-    val friends = ArrayList<FriendsModel>()
-    val matches = ArrayList<MatchesModel>()
 
 
+
+   val friends = ArrayList<FriendsModel>()
+    var matches = ArrayList<MatchesModel>()
 
 
 
     override fun onCreate() {
         super.onCreate()
 
-        categorys.add(ChooseCategoryModel(Categorys.Action.toString()));
-        categorys.add(ChooseCategoryModel(Categorys.Comedy.toString()));
-        categorys.add(ChooseCategoryModel(Categorys.Drama.toString()));
-        categorys.add(ChooseCategoryModel(Categorys.Horror.toString()));
+        FirebaseApp.initializeApp(this)
 
 
 
-        friends.add(FriendsModel("test2", "luke"))
-        friends.add(FriendsModel("masd123", "Ben"))
-        friends.add(FriendsModel("gay123", "fay"))
-        friends.add(FriendsModel("lsaf3", "mare"))
+        addFriend()
+        addMatches()
 
 
-        matches.add(MatchesModel("movies", "max"))
-        matches.add(MatchesModel("movie2", "luke"))
 
 
     }
 
+    fun getCurrentUsername(callback: (String) -> Unit) {
+
+        val currentuseremail = FirebaseAuth.getInstance().currentUser!!.email
+        val mDatabase = FirebaseDatabase.getInstance().reference
+
+        val rootRef = mDatabase.child("users")
+        rootRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+                println("Nicht geklappt")
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val children = snapshot!!.children
+                children.forEach {
+                    val username = it.key.toString()
+                    val email = it.child("email").value.toString()
+
+                    if (email == currentuseremail) {
+                        callback(username)
+                    }
+                }
+            }
+        })
+    }
+
+    fun addMatches(){
+
+        val currentuseremail = FirebaseAuth.getInstance().currentUser!!.email
+        val mDatabase = FirebaseDatabase.getInstance().reference
+
+
+
+        val rootRef = mDatabase.child("matches")
+        rootRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+                println("Nicht geklappt")
+            }
+
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val children = snapshot!!.children
+                children.forEach {
+                    var moviename = it.child("moviename").value.toString()
+                    var username1 = it.child("username1").value.toString()
+                    var username2 = it.child("username2").value.toString()
+
+                    getCurrentUsername { username ->
+                        // The callback function will be called with the current username as the argument
+                        println("current  " + username)
+                        if (username == username1 || username == username2) {
+                            println("username1 " + username1 + "username2 " + username2)
+                            var foundMatch = false
+                            for (currentMatch in matches) {
+                                if (currentMatch.moviename == moviename) {
+                                    // Moviename already exists in the list, so just add the username to the list of usernames
+                                    if (currentMatch.moviename == moviename) {
+                                        if (username1 == username) {
+                                            if (!currentMatch.friends.contains(username2)) {
+                                                currentMatch.friends.add(username2)
+                                            }
+                                        } else if (username2 == username) {
+                                            if (!currentMatch.friends.contains(username1)) {
+                                                currentMatch.friends.add(username1)
+                                            }
+                                        }
+                                        foundMatch = true
+                                        break
+                                    }
+
+
+                                }
+                            }
+                            if (!foundMatch) {
+                                // Moviename does not exist in the list, so add a new MatchesModel object to the list
+                                if (username1 == username ) {
+                                    matches.add(MatchesModel(moviename, arrayListOf(username2)))
+                                } else if (username2 == username) {
+                                    matches.add(MatchesModel(moviename, arrayListOf(username1)))
+                                }
+                            }
+                            val matchesAdapter = MatchesAdapter(matches)
+                            //matchesAdapter.updateData(matches)
+
+                        }
+
+
+                        // matches = matchesList.distinct() as ArrayList<MatchesModel>
+
+
+                    }
+                }
+
+                }
+
+        })
+
+
+    }
+
+    fun addFriend() {
+
+        val currentuseremail = FirebaseAuth.getInstance().currentUser!!.email
+        val mDatabase = FirebaseDatabase.getInstance().reference
+
+        var currentusername = ""
+        var friendList = ArrayList<String>()
+
+
+
+
+
+        val rootRef = mDatabase.child("users")
+        rootRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+                println("Nicht geklappt")
+            }
+
+
+        override fun onDataChange(snapshot: DataSnapshot) {
+            val children = snapshot!!.children
+            children.forEach {
+                var username = it.key.toString()
+                var email = it.child("email").value.toString()
+                var name = it.child("name").value.toString()
+                var friend = it.child("friends").children.map { it.key }.toString()
+
+
+                if (email == currentuseremail) {
+
+                    if (friend.contains(',')) {
+                        friendList = friend.split(",") as ArrayList<String>
+                    }
+                    else{
+
+                        friendList.add(friend)
+                    }
+
+                }
+
+            }
+
+            println("List1" + friendList)
+
+            for (i in  friendList.indices) {
+                friendList[i] = friendList[i].removePrefix("[").removeSuffix("]")
+            }
+
+            for (i in friendList.indices) {
+                friendList[i] = friendList[i].trim()
+            }
+
+
+                for (friend in friendList) {
+                    friends.add(FriendsModel(friend))
+
+                }
+
+
+
+
+
+        }
+
+
+
+    })
+
+    }
 
 
 

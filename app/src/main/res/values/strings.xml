@@ -13,5 +13,11 @@
     <string name="menu_backFriend">Back</string>
     <string name="Add_a_Friend">Add a Friend</string>
     <string name="Search">Search</string>
+    <string name="user_can_not_add_himself">User can not add himself</string>
+    <string name="user_already_exist">User already exist</string>
+    <string name="user_not_in_list">User does not exist</string>
+    <string name="all_movies_watched">All Movies Watched</string>
+    <string name="ImdB">ImdB:</string>
+
 
 </resources>

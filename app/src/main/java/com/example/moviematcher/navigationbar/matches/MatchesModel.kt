@@ -1,4 +1,4 @@
 
 
 
-data class MatchesModel (var moviename: String ="",var friend: String = "")
+data class MatchesModel (var moviename: String ="", val friends: ArrayList<String>)

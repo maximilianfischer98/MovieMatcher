@@ -1,3 +1,9 @@
 package com.example.moviematcher.navigationbar.friends
 
-data class FriendsModel (var username: String ="", var realname: String= "")
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+
+@Parcelize
+data class FriendsModel(
+    var username: String? ="" ) : Parcelable

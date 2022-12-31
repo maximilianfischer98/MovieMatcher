@@ -2,6 +2,7 @@
 package com.example.moviematcher.navigationbar.matches
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.AdapterView
@@ -47,6 +48,8 @@ class Matches: Fragment() {
 
         app = requireActivity().application as MainApp
 
+        app.addMatches()
+
 
 
 
@@ -75,6 +78,8 @@ class Matches: Fragment() {
 
 
     }
+
+
 
 
 

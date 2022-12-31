@@ -3,19 +3,17 @@ package com.example.moviematcher.login
 import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
-import android.os.Message
+
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.moviematcher.R
-import com.example.moviematcher.choosecategory.ChooseCategoryList
-import com.example.moviematcher.databinding.ActivityRegistrationBinding
+
 import com.example.moviematcher.databinding.LoginViewBinding
 import com.example.moviematcher.navigationbar.NavigationController
+
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.core.View
+
 
 
 class LoginScreen : AppCompatActivity() {
@@ -52,6 +50,7 @@ class LoginScreen : AppCompatActivity() {
 
                loginUser(email, password)
 
+
             }
             else  if (email.isEmpty()) {
                 Snackbar
@@ -75,7 +74,7 @@ class LoginScreen : AppCompatActivity() {
 
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(){
             if(it.isSuccessful){
-                val intent = Intent(this, ChooseCategoryList::class.java)
+                val intent = Intent(this, NavigationController::class.java)
 
                 startActivity(intent)
 
@@ -90,15 +89,7 @@ class LoginScreen : AppCompatActivity() {
 
     }
 
-    public override fun onStart() {
-        super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
-        val currentUser = firebaseAuth.currentUser
-        if (currentUser == null) {
-            val intent = Intent(this, NavigationController::class.java)
-            startActivity(intent)
-        }
-    }
+
 
 
 }

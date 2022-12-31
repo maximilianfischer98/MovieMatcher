@@ -1,9 +1,7 @@
 package com.example.moviematcher
 
-import android.app.Application
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.AndroidViewModel
 import com.example.moviematcher.login.LoginScreen
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore

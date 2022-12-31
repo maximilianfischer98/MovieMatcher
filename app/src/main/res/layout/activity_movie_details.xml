@@ -1,0 +1,141 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/defaultbackgroudcolor"
+    tools:context=".navigationbar.Movies.MovieDetails">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        app:elevation="0dip"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/darkgreytransparent"
+        app:theme="@style/Theme.MovieDetails.Actionbar">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:titleTextColor="@color/white"
+            app:theme="@style/Theme.MovieDetails.Actionbar"
+            app:title="Movie Details"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="520dp"
+        android:layout_height="376dp"
+        android:layout_marginBottom="431dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.417"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+
+        <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+            android:id="@+id/youtube_player_view"
+            android:layout_width="525dp"
+            android:layout_height="356dp"
+
+
+            app:autoPlay="true"
+            app:videoId="WX88XeGkONo" />
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/titel"
+        android:layout_width="384dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="28dp"
+        android:background="@color/darkgreytransparent"
+        android:text="TextView"
+        android:textColor="@color/white"
+        android:textSize="21dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.304"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.019" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="382dp"
+        android:layout_height="149dp"
+        android:layout_marginTop="3dp"
+        android:background="@color/darkgreytransparent"
+        android:text="TextView"
+        android:textColor="@color/white"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.454"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titel" />
+
+    <ImageButton
+        android:id="@+id/anbieter"
+        android:layout_width="89dp"
+        android:layout_height="83dp"
+        app:srcCompat="@drawable/netflix"
+        android:scaleType="fitCenter"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/description"
+        tools:ignore="UnknownId" />
+
+    <TextView
+        android:id="@+id/star"
+        android:layout_width="29dp"
+        android:layout_height="26dp"
+        android:layout_marginEnd="16dp"
+        android:text="☆"
+        android:textAlignment="center"
+        android:textColor="@color/gold"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.14" />
+
+    <TextView
+        android:id="@+id/rating"
+        android:layout_width="33dp"
+        android:layout_height="27dp"
+        android:text="0.0"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/titel"
+        app:layout_constraintEnd_toStartOf="@+id/star"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageView
+        android:id="@+id/imdb"
+        android:layout_width="40dp"
+        android:layout_height="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/titel"
+        app:layout_constraintEnd_toStartOf="@+id/rating"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.571"
+        app:srcCompat="@drawable/imdb" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

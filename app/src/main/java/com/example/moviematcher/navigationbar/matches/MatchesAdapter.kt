@@ -1,9 +1,11 @@
 package com.example.moviematcher.navigationbar.matches
 
 import MatchesModel
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.moviematcher.navigationbar.Movies.MovieDetails
 import com.example.moviematcher.databinding.CardMatchesBinding
 
 
@@ -20,7 +22,14 @@ class MatchesAdapter(private var matches: ArrayList<MatchesModel>) :
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
         val match = matches[holder.adapterPosition]
         holder.bind(match)
+
     }
+
+    fun updateData(newMatches: ArrayList<MatchesModel>) {
+        this.matches = newMatches
+        notifyDataSetChanged()
+    }
+
 
     override fun getItemCount(): Int = matches.size
 
@@ -29,7 +38,12 @@ class MatchesAdapter(private var matches: ArrayList<MatchesModel>) :
 
         fun bind(matches: MatchesModel) {
             binding.moviename.text = matches.moviename
-            binding.friendname.text = matches.friend
+            binding.friendname.text = matches.friends.toString()
+            binding.root.setOnClickListener {
+                val intent = Intent(it.context, MovieDetails::class.java)
+                intent.putExtra("text", matches.moviename)
+                it.context.startActivity(intent)
+            }
 
         }
     }

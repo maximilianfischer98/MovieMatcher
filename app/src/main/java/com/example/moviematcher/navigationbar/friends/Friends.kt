@@ -8,21 +8,17 @@ import android.view.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviematcher.MainApp
 import com.example.moviematcher.R
-import com.example.moviematcher.data.Movie
 import com.example.moviematcher.databinding.FragmentFriendsBinding
-
 
 
 class Friends: Fragment() {
 
     private lateinit var binding: FragmentFriendsBinding
     lateinit var app: MainApp
-    val movieList= ArrayList<Movie>()
     var hi = 1
 
 
@@ -48,6 +44,9 @@ class Friends: Fragment() {
 
         app = requireActivity().application as MainApp
 
+        //app. get Friends Data from Firebase hier einfügen
+
+
 
 
 
@@ -63,6 +62,8 @@ class Friends: Fragment() {
 
 
     }
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,7 +91,7 @@ class Friends: Fragment() {
             ActivityResultContracts.StartActivityForResult()
         ) {
             if (it.resultCode == Activity.RESULT_OK) {
-                (binding.recyclerView.adapter)?.
+               (binding.recyclerView.adapter)?.
                 notifyItemRangeChanged(0,app.friends.size)
             }
         }
@@ -105,6 +106,8 @@ class Friends: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
     }
+
+
 
 
 
