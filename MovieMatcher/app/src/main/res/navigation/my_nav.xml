@@ -20,4 +20,12 @@
         android:name="com.example.moviematcher.navigationbar.friends.Friends"
         android:label="Friends"
         tools:layout="@layout/fragment_friends" />
+    <fragment
+        android:id="@+id/videoPlayerFragment"
+        android:name="com.example.moviematcher.navigationbar.Movies.VideoPlayerFragment"
+        android:label="VideoPlayerFragment" />
+    <fragment
+        android:id="@+id/addFriendFragment"
+        android:name="com.example.moviematcher.navigationbar.friends.addFriendFragment"
+        android:label="addFriendFragment" />
 </navigation>

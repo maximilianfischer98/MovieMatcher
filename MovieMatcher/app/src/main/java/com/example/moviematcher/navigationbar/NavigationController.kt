@@ -26,11 +26,7 @@ class NavigationController : AppCompatActivity() {
         setupNavigationController()
         Timber.i("setup of NavigationController successful")
 
-        val fragment = intent.getStringExtra("frgToLoad")
-        println("FrgTOLoad"+fragment)
-        if(fragment != null){
-           // navigateToFragment("Matches")
-        }
+
 
     }
 

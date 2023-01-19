@@ -11,7 +11,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import com.example.moviematcher.MainApp
 import com.example.moviematcher.R
-import com.example.moviematcher.databinding.ActivityAddfriendBinding
+import com.example.moviematcher.databinding.AddfriendBinding
 import com.example.moviematcher.navigationbar.NavigationController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -21,7 +21,7 @@ import com.google.firebase.database.*
 class addFriend: AppCompatActivity() {
 
 
-    private lateinit var binding: ActivityAddfriendBinding
+    private lateinit var binding: AddfriendBinding
     val friends = ArrayList<FriendsModel>()
     lateinit var app: MainApp
     val mDatabase = FirebaseDatabase.getInstance().reference
@@ -35,7 +35,7 @@ class addFriend: AppCompatActivity() {
 
         app = application as MainApp
 
-        binding = ActivityAddfriendBinding.inflate(layoutInflater)
+      //  binding = ActivityAddfriendBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.toolbar.title = "Add a Friend"

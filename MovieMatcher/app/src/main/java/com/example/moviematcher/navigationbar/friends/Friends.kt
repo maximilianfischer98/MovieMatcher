@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviematcher.MainApp
@@ -90,8 +91,7 @@ class Friends: Fragment() {
         when (item.itemId) {
             R.id.item_add -> {
 
-                val intent = Intent(activity, addFriend::class.java)
-                getResult.launch(intent)
+                findNavController().navigate(R.id.addFriendFragment)
             }
         }
         return super.onOptionsItemSelected(item)

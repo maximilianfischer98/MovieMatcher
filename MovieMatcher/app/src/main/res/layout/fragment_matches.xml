@@ -5,7 +5,8 @@
     android:id="@+id/containerMatches"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".navigationbar.matches.Matches">
+    tools:context=".navigationbar.matches.Matches"
+    >
 
 
     <androidx.recyclerview.widget.RecyclerView

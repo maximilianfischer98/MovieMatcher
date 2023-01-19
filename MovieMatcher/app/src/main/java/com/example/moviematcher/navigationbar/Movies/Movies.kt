@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.moviematcher.MainApp
 import com.example.moviematcher.R
@@ -88,10 +89,12 @@ class Movies: Fragment() {
 
         binding.PlayButton.setOnClickListener{
             val value = videoId
-            val i = Intent(activity, VideoPlayer::class.java)
-            i.putExtra("key", value)
-            startActivity(i)
-
+            //val i = Intent(activity, VideoPlayer::class.java)
+            //i.putExtra("key", value)
+            //startActivity(i)
+            val bundle = Bundle()
+            bundle.putString("key", value)
+            findNavController().navigate(R.id.videoPlayerFragment,bundle)
 
 
         }
