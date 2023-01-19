@@ -37,7 +37,7 @@ class addFriend: AppCompatActivity() {
 
       //  binding = ActivityAddfriendBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+    // Binding ToolbarName
         binding.toolbar.title = "Add a Friend"
         setSupportActionBar(binding.toolbar)
 
