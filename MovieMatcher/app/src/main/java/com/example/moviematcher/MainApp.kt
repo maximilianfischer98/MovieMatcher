@@ -32,7 +32,7 @@ class MainApp : Application() {
         //Gets Friends of current User from DB
        // addFriends()
         //Gets Matches of current User from DB
-        addMatches()
+        //addMatches()
 
 
 

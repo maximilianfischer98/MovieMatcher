@@ -39,6 +39,10 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     val currentUserMail: LiveData<String>
         get() = _currentUserMail
 
+    private val _selectedMovie = MutableLiveData<String>()
+    val selectedMovie: LiveData<String>
+        get() = _selectedMovie
+
     private val _currentUserData = MutableLiveData<User>()
     val currentUserData: LiveData<User>
         get() = _currentUserData

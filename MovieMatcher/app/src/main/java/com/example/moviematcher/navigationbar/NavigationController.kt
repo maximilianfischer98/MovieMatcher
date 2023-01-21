@@ -51,20 +51,7 @@ class NavigationController : AppCompatActivity() {
 
     }
 
-//navigate to Fragement funktioniert nicht
 
-    fun navigateToFragment( fragment: String) {
-        val fragmentManager = supportFragmentManager
-        val friendsFragment = Friends()
-        val matchesFragment = Matches()
-        val fragmentTransaction = fragmentManager.beginTransaction()
-       // fragmentTransaction.add(R.id.constraint, Movies())
-        when (fragment) {
-            "Friends" -> fragmentTransaction.replace(R.id.containerMatches, friendsFragment)
-            "Matches" -> fragmentTransaction.replace(R.id.containerMatches, matchesFragment)
 
-        }
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.commit()
-    }
+
 }

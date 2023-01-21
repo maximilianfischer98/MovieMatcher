@@ -7,10 +7,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviematcher.MainApp
 import com.example.moviematcher.MainViewModel
+import com.example.moviematcher.R
 import com.example.moviematcher.databinding.FragmentMatchesBinding
 
 
@@ -29,15 +32,19 @@ class Matches: Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val viewModel : MainViewModel by activityViewModels()
+
 
         binding = FragmentMatchesBinding.inflate(inflater,container,false)
-        binding = FragmentMatchesBinding.inflate(layoutInflater)
+
+        return binding.root
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val viewModel : MainViewModel by activityViewModels()
         viewModel.loadMatches()
 
-        app = requireActivity().application as MainApp
-
-        //app.addMatches()
 
         val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(context)
         binding.recyclerView.layoutManager = layoutManager
@@ -54,22 +61,14 @@ class Matches: Fragment() {
         )
 
 
-        (activity as AppCompatActivity).supportActionBar
-        setHasOptionsMenu(true);
-
-
-
-
-
-        return binding.root
-
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
 
 
-
-
+    fun showMovieDetails(moviename: String){
+        val bundle = Bundle()
+        bundle.putString("key",moviename)
+        findNavController().navigate(R.id.movieDetailsFragment,bundle)
     }
 
 

@@ -28,9 +28,6 @@ class MovieDetails : AppCompatActivity() {
 
         val titel = intent.getStringExtra("text")
 
-        //Geht aus irgendeinem Grund nicht
-        binding.toolbar.title = "Movie Details"
-        binding.toolbar.setBackgroundColor(getResources().getColor(R.color.darkgreytransparent));
 
 
         binding.anbieter.setOnClickListener {
@@ -46,24 +43,7 @@ class MovieDetails : AppCompatActivity() {
 
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.close_menu, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
-
-        val i = Intent(this, NavigationController::class.java)
-        i.putExtra("frgToLoad", "Matches")
-
-
-
-        startActivity(i)
-
-
-        return true
-    }
 
     fun setData() {
 

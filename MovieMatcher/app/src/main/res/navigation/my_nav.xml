@@ -11,6 +11,11 @@
         android:label="Movies"
         tools:layout="@layout/fragment_movies" />
     <fragment
+        android:id="@+id/settings"
+        android:name="com.example.moviematcher.navigationbar.settings.settings"
+        android:label="Settings"
+        tools:layout="@layout/settings" />
+    <fragment
         android:id="@+id/matches"
         android:name="com.example.moviematcher.navigationbar.matches.Matches"
         android:label="Matches"
@@ -28,4 +33,8 @@
         android:id="@+id/addFriendFragment"
         android:name="com.example.moviematcher.navigationbar.friends.addFriendFragment"
         android:label="addFriendFragment" />
+    <fragment
+        android:id="@+id/movieDetailsFragment"
+        android:name="com.example.moviematcher.navigationbar.Movies.MovieDetailsFragment"
+        android:label="MovieDetailsFragment" />
 </navigation>

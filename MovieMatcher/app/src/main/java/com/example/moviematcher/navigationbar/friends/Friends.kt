@@ -26,28 +26,23 @@ class Friends: Fragment() {
     lateinit var app: MainApp
 
 
-    override fun onResume() {
-        super.onResume()
-        (activity as AppCompatActivity?)!!.supportActionBar!!.show()
-    }
-
-
-
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
-       val viewModel : MainViewModel by activityViewModels()
         binding = FragmentFriendsBinding.inflate(inflater,container,false)
         binding = FragmentFriendsBinding.inflate(layoutInflater)
+
+        return binding.root
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val viewModel : MainViewModel by activityViewModels()
+
         viewModel.getCurrentUserMail()?.let { viewModel.loadFriends(it) }
-
-        app = requireActivity().application as MainApp
-
-
 
 
         val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(context)
@@ -64,56 +59,10 @@ class Friends: Fragment() {
             }
         )
 
-        (activity as AppCompatActivity).supportActionBar
-        setHasOptionsMenu(true);
-
-
-        return binding.root
-
-
-    }
-
-
-
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.friends_menu, menu)
-        super.onCreateOptionsMenu(menu!!, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.item_add -> {
-
-                findNavController().navigate(R.id.addFriendFragment)
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    private val getResult =
-        registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) {
-            if (it.resultCode == Activity.RESULT_OK) {
-
-            }
+        binding.AddButton.setOnClickListener(){
+            findNavController().navigate(R.id.addFriendFragment)
         }
 
-
-
-
-
-
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
     }
 
