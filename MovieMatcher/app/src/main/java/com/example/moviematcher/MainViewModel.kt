@@ -3,6 +3,7 @@ package com.example.moviematcher
 import MatchesModel
 import android.app.Application
 import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
@@ -20,6 +21,8 @@ import com.example.moviematcher.navigationbar.NavigationController
 import com.example.moviematcher.navigationbar.friends.FriendsAdapter
 import com.example.moviematcher.navigationbar.friends.FriendsModel
 import com.example.moviematcher.navigationbar.matches.MatchesAdapter
+import com.example.moviematcher.navigationbar.settings.settings
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
@@ -276,12 +279,35 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 
     }
 
+    fun signOut() {
+        FirebaseAuth.getInstance().signOut()
+    }
 
+    fun changePassword(currentPassword: String, newPassword: String, context:Context) {
+        val auth = FirebaseAuth.getInstance()
+        val user = auth.currentUser
+        val credential = EmailAuthProvider.getCredential(user?.email!!, currentPassword)
 
+        user.reauthenticate(credential)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d("Change Password", "User re-authenticated.")
+                    user.updatePassword(newPassword)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                Log.d("Change Password", "User password updated.")
+                                Toast.makeText(context, "Password Changed", Toast.LENGTH_SHORT).show()
+                            } else {
+                                Log.e("Change Password", "Failed to update password.", task.exception)
 
-
-
-
+                            }
+                        }
+                } else {
+                    Log.e("Change Password", "Failed to re-authenticate user.", task.exception)
+                    Toast.makeText(context, "The current password is incorrect.", Toast.LENGTH_SHORT).show()
+                }
+            }
+    }
 
 
 }
