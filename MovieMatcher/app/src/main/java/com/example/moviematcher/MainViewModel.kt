@@ -46,8 +46,8 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     val selectedMovie: LiveData<String>
         get() = _selectedMovie
 
-    private val _currentUserData = MutableLiveData<User>()
-    val currentUserData: LiveData<User>
+    private val _currentUserData = MutableLiveData<User?>()
+    val currentUserData: LiveData<User?>
         get() = _currentUserData
 
     private val _friends = MutableLiveData<MutableList<FriendsModel>>()
@@ -281,6 +281,8 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 
     fun signOut() {
         FirebaseAuth.getInstance().signOut()
+        _currentUserData.value = null
+
     }
 
     fun changePassword(currentPassword: String, newPassword: String, context:Context) {

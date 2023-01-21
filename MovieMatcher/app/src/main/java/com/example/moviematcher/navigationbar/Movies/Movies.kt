@@ -1,6 +1,7 @@
 
 package com.example.moviematcher.navigationbar.Movies
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -39,6 +40,7 @@ class Movies: Fragment() {
 
     private lateinit var binding: FragmentMoviesBinding
 
+
     private lateinit var database: DatabaseReference
 
     val currentuseremail = FirebaseAuth.getInstance().currentUser!!.email
@@ -66,6 +68,8 @@ class Movies: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
+
 
         binding = FragmentMoviesBinding.inflate(inflater)
         readMovieData()
@@ -405,10 +409,10 @@ class Movies: Fragment() {
 
     }
 
+    @SuppressLint("ResourceAsColor")
     fun showPopup(context: Context, movietitel: String, usernames: List<String>) {
         val view = LayoutInflater.from(context).inflate(R.layout.it_is_a_match_popupwindow, null)
         val bindingPopup = ItIsAMatchPopupwindowBinding.bind(view)
-
         bindingPopup.popupImageView.setImageDrawable(binding.imageView.drawable)
         bindingPopup.popupTitle.text = "It's a Match!"
         bindingPopup.popupMessage.text = Html.fromHtml("<b>Movietitel:</b> $movietitel<br><b>Matching Users:</b> $usernames")

@@ -53,8 +53,14 @@ class Friends: Fragment() {
             viewLifecycleOwner,
             Observer {
                 if (it.isNotEmpty()) {
-                    binding.recyclerView.adapter = FriendsAdapter(it)
 
+                    val nonEmptyFriends = mutableListOf<FriendsModel>()
+                    for (i in it.indices) {
+                        if (it[i].username != "") {
+                            nonEmptyFriends.add(it[i])
+                        }
+                    }
+                    binding.recyclerView.adapter = FriendsAdapter(nonEmptyFriends)
                 }
             }
         )

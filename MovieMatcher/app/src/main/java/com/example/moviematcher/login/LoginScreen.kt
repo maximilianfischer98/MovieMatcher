@@ -37,6 +37,9 @@ class LoginScreen : AppCompatActivity() {
         binding = LoginViewBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        ifUserIsLoggedIn()
+
+
         binding.newAccount.setOnClickListener{
 
             val intent = Intent(this, Registration::class.java)
@@ -79,8 +82,21 @@ class LoginScreen : AppCompatActivity() {
             }
 
         }
+
+
+
     }
 
+    fun ifUserIsLoggedIn(){
+        val auth = FirebaseAuth.getInstance()
+        val currentUser = auth.currentUser
+
+        if (currentUser != null) {
+            // User is already signed in, redirect to home screen
+            startActivity(Intent(this, NavigationController::class.java))
+            finish()
+        }
+    }
 
 
 

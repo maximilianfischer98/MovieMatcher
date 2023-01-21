@@ -5,7 +5,6 @@
     android:id="@+id/constraint"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_login"
     tools:context=".navigationbar.friends.addFriend"
     >
 
@@ -31,25 +30,16 @@
         android:id="@+id/AddButton"
         android:layout_width="141dp"
         android:layout_height="74dp"
-        android:layout_marginStart="117dp"
-        android:layout_marginTop="107dp"
-        android:layout_marginEnd="135dp"
-        android:layout_marginBottom="246dp"
         android:backgroundTint="@color/darkgreen"
         android:text="Add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username" />
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:ignore="DuplicateIds,MissingConstraints"/>
+        app:layout_constraintTop_toTopOf="@+id/appBarLayout2"
+        app:layout_constraintVertical_bias="0.653" />
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"

@@ -23,6 +23,7 @@ class NavigationController : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
 
+
         setupNavigationController()
         Timber.i("setup of NavigationController successful")
 
