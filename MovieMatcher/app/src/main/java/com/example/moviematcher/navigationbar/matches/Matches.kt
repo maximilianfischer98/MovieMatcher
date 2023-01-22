@@ -3,27 +3,19 @@ package com.example.moviematcher.navigationbar.matches
 
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.Navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.moviematcher.MainApp
 import com.example.moviematcher.MainViewModel
-import com.example.moviematcher.R
 import com.example.moviematcher.databinding.FragmentMatchesBinding
+import com.github.ajalt.timberkt.Timber
 
 
 class Matches: Fragment() {
 
     private lateinit var binding: FragmentMatchesBinding
-    lateinit var app: MainApp
-
-
-
 
 
     override fun onCreateView(
@@ -57,6 +49,7 @@ class Matches: Fragment() {
                     binding.recyclerView.adapter = MatchesAdapter(it)
 
                 }
+                Timber.i(null, { "Matches List empty" })
             }
         )
 
@@ -65,11 +58,7 @@ class Matches: Fragment() {
 
 
 
-    fun showMovieDetails(moviename: String){
-        val bundle = Bundle()
-        bundle.putString("key",moviename)
-        findNavController().navigate(R.id.movieDetailsFragment,bundle)
-    }
+
 
 
 

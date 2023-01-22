@@ -1,13 +1,9 @@
 package com.example.moviematcher.navigationbar.friends
 
-import android.content.Context
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
-import androidx.constraintlayout.motion.widget.KeyFrames
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.example.moviematcher.R
 import com.example.moviematcher.databinding.CardFriendsBinding
 
 
@@ -30,15 +26,7 @@ class FriendsAdapter(private var friends: MutableList<FriendsModel>) :
     }
 
 
-
-
-    fun updateData(newData: ArrayList<FriendsModel>) {
-        friends = newData
-        notifyDataSetChanged()
-    }
-
     override fun getItemCount(): Int = friends.size
-
 
 
 

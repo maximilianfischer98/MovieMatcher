@@ -33,8 +33,5 @@
         android:id="@+id/addFriendFragment"
         android:name="com.example.moviematcher.navigationbar.friends.addFriendFragment"
         android:label="addFriendFragment" />
-    <fragment
-        android:id="@+id/movieDetailsFragment"
-        android:name="com.example.moviematcher.navigationbar.Movies.MovieDetailsFragment"
-        android:label="MovieDetailsFragment" />
+
 </navigation>

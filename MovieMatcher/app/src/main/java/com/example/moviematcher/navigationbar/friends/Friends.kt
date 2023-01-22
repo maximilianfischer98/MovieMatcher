@@ -17,13 +17,13 @@ import com.example.moviematcher.MainApp
 import com.example.moviematcher.MainViewModel
 import com.example.moviematcher.R
 import com.example.moviematcher.databinding.FragmentFriendsBinding
+import com.github.ajalt.timberkt.Timber
 
 
 class Friends: Fragment() {
 
 
     private lateinit var binding: FragmentFriendsBinding
-    lateinit var app: MainApp
 
 
     override fun onCreateView(
@@ -62,11 +62,13 @@ class Friends: Fragment() {
                     }
                     binding.recyclerView.adapter = FriendsAdapter(nonEmptyFriends)
                 }
+                Timber.i(null, { "Friends List empty" })
             }
         )
 
         binding.AddButton.setOnClickListener(){
             findNavController().navigate(R.id.addFriendFragment)
+            Timber.i(null, { "Start add Friend Fragment" })
         }
 
 

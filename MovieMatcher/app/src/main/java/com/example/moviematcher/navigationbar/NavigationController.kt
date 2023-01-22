@@ -45,10 +45,6 @@ class NavigationController : AppCompatActivity() {
 
         bottomNavigationView.setupWithNavController(navController)
 
-        //  app = requireActivity().application as MainApp
-
-
-
 
     }
 

@@ -11,6 +11,7 @@ import com.example.moviematcher.R
 import com.example.moviematcher.databinding.FragmentMatchesBinding
 import com.example.moviematcher.databinding.VideoplayerBinding
 import com.example.moviematcher.navigationbar.NavigationController
+import com.github.ajalt.timberkt.Timber
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
@@ -57,6 +58,7 @@ class VideoPlayerFragment: Fragment() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
                 youTubePlayer.loadVideo(movieId, 0f)
                 youTubePlayer.cueVideo(movieId, 0f)
+                Timber.i(null, { "Movie ready to start" })
             }
         })
         youTubePlayerView.enterFullScreen()

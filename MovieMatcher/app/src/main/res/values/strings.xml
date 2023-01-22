@@ -19,6 +19,13 @@
     <string name="all_movies_watched">All Movies Watched</string>
     <string name="ImdB">ImdB:</string>
     <string name="Create_new_User">Create new User</string>
+    <string name="username_OR_password_wrong">Username or Password wrong</string>
+    <string name="please_enter_username">"Please enter username "</string>
+    <string name="please_enter_password">please_enter_password</string>
+    <string name="username_or_password_empty">username or password empty</string>
+    <string name="please_enter_email">Please enter email</string>
+    <string name="please_enter_name">"Please enter name "</string>
+    <string name="all_movies_played">All Movies Played</string>
 
 
 </resources>

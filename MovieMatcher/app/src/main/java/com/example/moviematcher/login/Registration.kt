@@ -14,6 +14,7 @@ import com.example.moviematcher.MainViewModel
 import com.example.moviematcher.R
 import com.example.moviematcher.databinding.ActivityRegistrationBinding
 import com.example.moviematcher.navigationbar.NavigationController
+import com.github.ajalt.timberkt.Timber
 
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -26,12 +27,6 @@ import com.google.firebase.ktx.Firebase
 class Registration: AppCompatActivity() {
 
     private lateinit var binding: ActivityRegistrationBinding
-
-    private val firebaseAuth = FirebaseAuth.getInstance()
-
-   private lateinit var database: DatabaseReference
-
-
 
 
 
@@ -67,7 +62,8 @@ class Registration: AppCompatActivity() {
                             val intent = Intent(this, NavigationController::class.java)
                             startActivity(intent)
                         } else {
-                            Toast.makeText(this, "username or password wrong", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this, R.string.username_or_password_empty, Toast.LENGTH_LONG).show()
+                            Timber.w(null, { "username or password empty" })
                         }
                     })
 
@@ -76,27 +72,31 @@ class Registration: AppCompatActivity() {
                 else  if (email.isEmpty()) {
 
                     Snackbar
-                        .make(it,"Please enter email ", Snackbar.LENGTH_LONG)
+                        .make(it,R.string.please_enter_email, Snackbar.LENGTH_LONG)
                         .show()
+                    Timber.w(null, { "User doens't enterd email" })
 
                 }
 
                 else  if (password.isEmpty()) {
                     Snackbar
-                        .make(it,"Please enter password ", Snackbar.LENGTH_LONG)
+                        .make(it,R.string.please_enter_password , Snackbar.LENGTH_LONG)
                         .show()
+                    Timber.w(null, { "User doens't entered password" })
                 }
 
                 else  if (username.isEmpty()) {
                     Snackbar
-                        .make(it,"Please enter username ", Snackbar.LENGTH_LONG)
+                        .make(it,R.string.please_enter_username, Snackbar.LENGTH_LONG)
                         .show()
+                    Timber.w(null, { "User doens't entered username" })
                 }
 
                 else  if (name.isEmpty()) {
                     Snackbar
-                        .make(it,"Please enter username ", Snackbar.LENGTH_LONG)
+                        .make(it,R.string.please_enter_name , Snackbar.LENGTH_LONG)
                         .show()
+                    Timber.w(null, { "User doens't entered name" })
                 }
 
 
@@ -115,7 +115,6 @@ class Registration: AppCompatActivity() {
         when (item.itemId) {
             R.id.back -> {
                 val i = Intent(this, LoginScreen::class.java)
-
 
                 startActivity(i)
             }

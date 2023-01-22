@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.moviematcher.MainViewModel
 import com.example.moviematcher.databinding.CardMatchesBinding
 import com.example.moviematcher.navigationbar.Movies.MovieDetails
+import com.github.ajalt.timberkt.Timber
 import java.util.EnumSet.of
 import java.util.List.of
 
@@ -29,12 +30,6 @@ class MatchesAdapter(private var matches: MutableList<MatchesModel>) :
 
     }
 
-    fun updateData(newMatches: ArrayList<MatchesModel>) {
-        this.matches = newMatches
-        notifyDataSetChanged()
-    }
-
-
     override fun getItemCount(): Int = matches.size
 
     class MainHolder(private val binding: CardMatchesBinding) :
@@ -47,6 +42,7 @@ class MatchesAdapter(private var matches: MutableList<MatchesModel>) :
                val intent = Intent(it.context, MovieDetails::class.java)
                 intent.putExtra("text", matches.moviename)
                 it.context.startActivity(intent)
+                Timber.i(null, { "Start MovieDetails" })
 
             }
 

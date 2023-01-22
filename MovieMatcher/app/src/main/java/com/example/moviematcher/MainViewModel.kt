@@ -73,7 +73,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 
 
             } else {
-                Log.e(ContentValues.TAG, "SignUp failed: ${it.exception}")
+                Timber.e("SignUp failed")
             }
         }
     }
@@ -83,16 +83,16 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 
 
             database = Firebase.database.reference
-            val user = com.example.moviematcher.data.User(email,username,name)
+            val user = User(email,username,name)
 
 
             database.child("users").child(username).setValue(user)
                 .addOnSuccessListener {
-                    //Log ergänzen
-                    print("User createded")
+                    Timber.i("User created")
+
                 }
                 .addOnFailureListener {
-                    print("User not createded")
+                    Timber.e("failed to create User")
                 }
 
         }
@@ -105,14 +105,14 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
             if(it.isSuccessful){
                 _loginResult.value = true
                 _currentUserMail.value = firebaseAuth.currentUser!!.email
-                println("Mail1"+ currentUserMail.value)
 
-
+                Timber.i("Login sucessfull")
 
             }
             else {
                 _loginResult.value = false
-                Log.e(ContentValues.TAG, "Login failed: ${it.exception}")
+               // Log.e(ContentValues.TAG, "Login failed: ${it.exception}")
+                Timber.e("Login failed")
             }
         }
 
@@ -140,7 +140,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
                     println("Mail"+currentUserMail.value)
 
                     if (email == currentMail) {
-
+                        Timber.i("Found User in DB")
                         if (friend.contains(',')) {
                             friendList = friend.split(",") as ArrayList<String>
                         } else {
@@ -220,9 +220,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 
                     getCurrentUsername { username ->
                         // The callback function will be called with the current username as the argument
-                        println("current  " + username)
                         if (username == username1 || username == username2) {
-                            println("username1 " + username1 + "username2 " + username2)
                             var foundMatch = false
                             if(_matches.value != null) {
                                 for (currentMatch in _matches.value!!) {
@@ -247,26 +245,18 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
                                 }
                             }
                             if (!foundMatch) {
-                                println("Matches adden")
 
                                 // Moviename does not exist in the list, so add a new MatchesModel object to the list
                                 if (username1 == username ) {
-                                    println("Moviename "+moviename)
+
                                     _matches.postValue(_matches.value?.apply { add(MatchesModel(moviename, arrayListOf(username2))) } )
                                 } else if (username2 == username) {
                                     _matches.postValue(_matches.value?.apply { add(MatchesModel(moviename, arrayListOf(username1))) } )
                                 }
                             }
-                            println("MatchesValue "+_matches.value)
 
-
-
-                            //matchesAdapter.updateData(matches)
 
                         }
-
-
-                        // matches = matchesList.distinct() as ArrayList<MatchesModel>
 
 
                     }
@@ -293,19 +283,19 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         user.reauthenticate(credential)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Log.d("Change Password", "User re-authenticated.")
+                    Timber.d("User re-authenticated")
                     user.updatePassword(newPassword)
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
-                                Log.d("Change Password", "User password updated.")
+                                Timber.d("User password updated")
                                 Toast.makeText(context, "Password Changed", Toast.LENGTH_SHORT).show()
                             } else {
-                                Log.e("Change Password", "Failed to update password.", task.exception)
+                                Timber.e("Failed to update Password")
 
                             }
                         }
                 } else {
-                    Log.e("Change Password", "Failed to re-authenticate user.", task.exception)
+                    Timber.e("Failed to re-authenticated user")
                     Toast.makeText(context, "The current password is incorrect.", Toast.LENGTH_SHORT).show()
                 }
             }

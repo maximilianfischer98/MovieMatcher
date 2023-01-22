@@ -3,7 +3,6 @@ package com.example.moviematcher.navigationbar.Movies
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.text.Html
@@ -22,8 +21,8 @@ import com.example.moviematcher.data.Movie
 import com.example.moviematcher.data.UserLikeMovie
 import com.example.moviematcher.databinding.FragmentMoviesBinding
 import com.example.moviematcher.databinding.ItIsAMatchPopupwindowBinding
-import com.example.moviematcher.navigationbar.NavigationController
-import com.example.moviematcher.navigationbar.matches.Matches
+import com.github.ajalt.timberkt.Timber
+
 
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -45,7 +44,7 @@ class Movies: Fragment() {
 
     val currentuseremail = FirebaseAuth.getInstance().currentUser!!.email
     val mDatabase = FirebaseDatabase.getInstance().reference
-    val mainApp = MainApp()
+
 
 
     lateinit var videoId: String;
@@ -79,7 +78,7 @@ class Movies: Fragment() {
         binding.buttonNo.setOnClickListener{
             i++;
             userDidDecision(false)
-
+            Timber.i(null, { "User clicked yes" })
 
 
         }
@@ -87,19 +86,16 @@ class Movies: Fragment() {
         binding.buttonYes.setOnClickListener{
             i++;
             userDidDecision(true)
-            mainApp.addMatches()
+            Timber.i(null, { "User clicked no" })
 
     }
 
         binding.PlayButton.setOnClickListener{
             val value = videoId
-            //val i = Intent(activity, VideoPlayer::class.java)
-            //i.putExtra("key", value)
-            //startActivity(i)
             val bundle = Bundle()
             bundle.putString("key", value)
             findNavController().navigate(R.id.videoPlayerFragment,bundle)
-
+            Timber.i(null, { "start Video Player Fragment" })
 
         }
 
@@ -122,12 +118,10 @@ class Movies: Fragment() {
 
         val constraintLayout = binding.constraint
 
-
-
         val rootRef = mDatabase.child("movies")
         rootRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
-                println("Nicht geklappt")
+                Timber.e(null, { "DB Error" })
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -141,9 +135,6 @@ class Movies: Fragment() {
                     rating = it.child("ImdB").value.toString()
                     var movie = Movie(moviename,moviedescription,movieid,moviepicture,rating)
 
-
-
-
                     if(!movieList.contains(movie)) {
                         movieList.add(movie)
                     }
@@ -154,7 +145,7 @@ class Movies: Fragment() {
 
 
                 movieAlreadyWatched { movieAlreadWatchedList ->
-
+                    Timber.i(null, { "Check if Movie already watched" })
 
                     while (i <movieList.count() && movieAlreadWatchedList.contains(movieList[i].moviename ) ) {
                         i++;
@@ -164,10 +155,8 @@ class Movies: Fragment() {
                     println("MovieCount" + movieList.count ())
 
                     if (i >= movieList.size) {
-                        Snackbar
-                            .make(constraintLayout, R.string.all_movies_watched, Snackbar.LENGTH_LONG)
-                            .show()
-                        binding.titel.setText("All Movies Played")
+                        Timber.i(null, { "All Movies Played" })
+                        binding.titel.setText(R.string.all_movies_played)
                         binding.description.setVisibility(View.GONE)
                         binding.buttonNo.setVisibility(View.GONE)
                         binding.buttonYes.setVisibility(View.GONE)
@@ -229,7 +218,7 @@ class Movies: Fragment() {
         val rootRef = mDatabase.child("users")
         rootRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
-                println("Nicht geklappt")
+                Timber.e(null, { "DB Error" })
             }
 
 
@@ -242,7 +231,7 @@ class Movies: Fragment() {
                     var friend = it.child("friends").value.toString()
 
                     if (email == currentuseremail) {
-
+                        Timber.i(null, { "Found current User" })
                     currentUser = username
 
 
@@ -260,7 +249,6 @@ class Movies: Fragment() {
 
                         }
 
-
                             //Create list from string input and remove duplicates.
                             val friendInputList = friend.trim('{', '}').split(",")
                             println("FriendInput"+ friendInputList)
@@ -268,12 +256,6 @@ class Movies: Fragment() {
                         if (friendInputList.size >= 1) {
                             friendsOfCurrentUser = friendInputList.toSet().map { it.split("=")[1] } as ArrayList<String>
                         }
-
-
-
-
-
-
 
 
                     }
@@ -298,26 +280,15 @@ class Movies: Fragment() {
 
 
 
-
-
-                println("1"+moviesCurrenUserLikedList)
-                println("2"+moviesUsersLikedList)
-
-
                 // saves all Movies who have a Match with the Usernames in a List
                 val matchingMovies = moviesCurrenUserLikedList.flatMap { currentUserMovie ->
                     val otherUserMovies = moviesUsersLikedList.filter { it.moviename == currentUserMovie.moviename }
                     otherUserMovies.map { Match(currentUserMovie.moviename, currentUserMovie.username, it.username) }
                 }
 
-                println("Friendlist"+ friendsOfCurrentUser)
 
                 //checks if a friend has same movie in movieLikedList
-
                 if(checkIfItisAFriend(matchingMovies,friendsOfCurrentUser) == true) {
-
-                    println("1"+moviesCurrenUserLikedList)
-                    println("2"+moviesUsersLikedList)
 
 
 
@@ -335,10 +306,6 @@ class Movies: Fragment() {
                     }
 
 
-
-
-
-
                     if (filteredMatchingMovies.any { it.moviename == binding.titel.text.toString() }) {
 
                         //Filer User which are in Friendlist and Liked the Movie and are not current User
@@ -350,15 +317,6 @@ class Movies: Fragment() {
                             .filter { it != currentUser }
 
 
-
-                        println("matchingMovies"+ matchingMovies)
-                        println("matchingUsers" + matchingUsernames)
-
-                        val index =
-                            matchingMovies.indexOfFirst { it.moviename == binding.titel.text.toString() }
-
-
-                        print("true")
                         context?.let {
                             showPopup(
                                 it,
@@ -371,23 +329,11 @@ class Movies: Fragment() {
                     }
                 }
 
-
-                println("Bining Titel" + binding.titel.text  )
-
-
             }
-
-
-
-
-
 
         })
 
-
         readMovieData()
-
-
 
     }
 
@@ -400,20 +346,27 @@ class Movies: Fragment() {
 
         database.child("matches").child(moviename+"-"+username1+"-"+username2).setValue(match)
             .addOnSuccessListener {
-                //Log ergänzen
-                print("User createded")
+
+                Timber.i(null, { "Created Match" })
             }
             .addOnFailureListener {
-                print("User not createded")
+                Timber.e(null, { "Failed to create Match" })
             }
 
     }
 
     @SuppressLint("ResourceAsColor")
     fun showPopup(context: Context, movietitel: String, usernames: List<String>) {
+        Timber.i(null, { "Start Pop Up" })
         val view = LayoutInflater.from(context).inflate(R.layout.it_is_a_match_popupwindow, null)
         val bindingPopup = ItIsAMatchPopupwindowBinding.bind(view)
         bindingPopup.popupImageView.setImageDrawable(binding.imageView.drawable)
+        //change size of ImageView
+        val layoutParams = bindingPopup.popupImageView.layoutParams
+        layoutParams.width = 900 // set width to 200 pixels
+        layoutParams.height = 1300 // set height to 200 pixels
+
+        bindingPopup.popupImageView.layoutParams = layoutParams
         bindingPopup.popupTitle.text = "It's a Match!"
         bindingPopup.popupMessage.text = Html.fromHtml("<b>Movietitel:</b> $movietitel<br><b>Matching Users:</b> $usernames")
 
@@ -442,9 +395,6 @@ class Movies: Fragment() {
     }
 
 
-
-
-
     fun movieAlreadyWatched(callback: (List<String>) -> Unit){
 
 
@@ -453,7 +403,7 @@ class Movies: Fragment() {
         val rootRef = mDatabase.child("users")
         rootRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
-                println("Nicht geklappt")
+                Timber.e(null, { "DB Error" })
             }
 
 
@@ -464,6 +414,7 @@ class Movies: Fragment() {
                     var movies = it.child("moviesalreadywatched").children.map { it.key }.toString()
 
                     if (email == currentuseremail) {
+                        Timber.i(null, { "Found current User" })
                         if (movies.contains(',')) {
                             movieAlreadyWatchedList = movies.split(",") as ArrayList<String>
                         }
@@ -503,14 +454,11 @@ class Movies: Fragment() {
 
     fun userDidDecision(userlikedmovie: Boolean) {
 
-
-
         val rootRef = mDatabase.child("users")
         rootRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
-                println("Nicht geklappt")
+                Timber.e(null, { "DB Error" })
             }
-
 
             override fun onDataChange(snapshot: DataSnapshot) {
                 val children = snapshot!!.children
@@ -518,12 +466,8 @@ class Movies: Fragment() {
                     var username = it.key.toString()
                     var email = it.child("email").value.toString()
 
-
-
-
-
                     if (email == currentuseremail) {
-
+                        Timber.i(null, { "Found User" })
                         mDatabase.child("users").child(username).child("moviesalreadywatched").child(
                             binding.titel.text as String).setValue(binding.titel.text)
 
@@ -535,11 +479,6 @@ class Movies: Fragment() {
                     }
 
                 }
-
-
-
-
-
 
             }
 
@@ -554,7 +493,7 @@ class Movies: Fragment() {
             val handler = Handler()
             handler.postDelayed({
                 checkIfItIsAMatch()
-            }, 1000) // Wait 1 second before running checkIfItIsAMatch
+            }, 500) // Wait 0.5 second before running checkIfItIsAMatch
 
         }
 
@@ -563,12 +502,6 @@ class Movies: Fragment() {
         }
 
     }
-
-
-
-
-
-
 
 
 

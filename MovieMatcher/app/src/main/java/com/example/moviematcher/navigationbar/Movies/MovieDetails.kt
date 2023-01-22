@@ -9,6 +9,7 @@ import android.view.MenuItem
 import com.example.moviematcher.R
 import com.example.moviematcher.databinding.ActivityMovieDetailsBinding
 import com.example.moviematcher.navigationbar.NavigationController
+import com.github.ajalt.timberkt.Timber
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -26,14 +27,12 @@ class MovieDetails : AppCompatActivity() {
         binding = ActivityMovieDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val titel = intent.getStringExtra("text")
-
-
 
         binding.anbieter.setOnClickListener {
             getLink { link ->
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
                 startActivity(intent)
+                Timber.i(null, { "Start Netflix Link" })
             }
 
 
@@ -57,7 +56,7 @@ class MovieDetails : AppCompatActivity() {
         val rootRef = mDatabase.child("movies")
         rootRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
-                println("Nicht geklappt")
+                Timber.e(null, { "Database Error" })
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -67,8 +66,6 @@ class MovieDetails : AppCompatActivity() {
                     val description = it.child("description").value.toString()
                     val rating = it.child("ImdB").value.toString()
                     val movieId = it.child("movieId").value.toString()
-                    val pictureUrl = it.child("moviepicture").value.toString()
-                    val link = it.child("link").value.toString()
 
                     println("Moviename"+ moviename)
                     if(titel == moviename){
@@ -77,7 +74,7 @@ class MovieDetails : AppCompatActivity() {
                         binding.description.text = description
                         binding.rating.text = rating
                         manageYoutubePlayer(movieId)
-
+                        Timber.i(null, { "Found Movie in DB" })
                     }
 
 
@@ -96,7 +93,7 @@ class MovieDetails : AppCompatActivity() {
         val rootRef = mDatabase.child("movies")
         rootRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
-                println("Nicht geklappt")
+                Timber.e(null, { "Database Error" })
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -106,6 +103,7 @@ class MovieDetails : AppCompatActivity() {
                     val link = it.child("link").value.toString()
                     if (titel == moviename) {
                         callback(link)
+                        Timber.i(null, { "Callback Movie Link" })
                     }
                 }
             }
@@ -123,6 +121,7 @@ class MovieDetails : AppCompatActivity() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
                 youTubePlayer.loadVideo(movieId, 0f)
                 youTubePlayer.cueVideo(movieId, 0f)
+                Timber.i(null, { "Trailer ready to start" })
             }
         })
         youTubePlayerView.enterFullScreen()
