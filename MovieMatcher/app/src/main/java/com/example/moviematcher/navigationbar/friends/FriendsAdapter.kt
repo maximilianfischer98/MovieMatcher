@@ -1,11 +1,14 @@
 package com.example.moviematcher.navigationbar.friends
 
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.moviematcher.FriendMatches
 import com.example.moviematcher.databinding.CardFriendsBinding
-
+import com.example.moviematcher.navigationbar.Movies.MovieDetails
+import com.github.ajalt.timberkt.Timber
 
 
 class FriendsAdapter(private var friends: MutableList<FriendsModel>) :
@@ -35,7 +38,12 @@ class FriendsAdapter(private var friends: MutableList<FriendsModel>) :
 
         fun bind(friends: FriendsModel) {
             binding.username.text = friends.username
-
+            binding.root.setOnClickListener {
+                val intent = Intent(itemView.context, FriendMatches::class.java)
+                intent.putExtra("friend", friends.username)
+                itemView.context.startActivity(intent)
+                Timber.i(null, { "Start MovieDetails" })
+            }
         }
     }
 

@@ -9,11 +9,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.startActivity
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
+import androidx.lifecycle.*
 import com.example.moviematcher.data.User
 import com.example.moviematcher.databinding.LoginViewBinding
 import com.example.moviematcher.login.LoginScreen
@@ -57,6 +53,10 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     private val _matches = MutableLiveData<MutableList<MatchesModel>>()
     val matches: LiveData<MutableList<MatchesModel>>
         get() = _matches
+
+    private val _friendMatchtes = MutableLiveData<MutableList<FriendMatchesModel>>()
+    val friendMatches: LiveData<MutableList<FriendMatchesModel>>
+        get() = _friendMatchtes
 
     private val _loginResult = MutableLiveData<Boolean>()
     val loginResult : LiveData<Boolean>
@@ -105,6 +105,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
             if(it.isSuccessful){
                 _loginResult.value = true
                 _currentUserMail.value = firebaseAuth.currentUser!!.email
+                loadMatches()
 
                 Timber.i("Login sucessfull")
 
@@ -300,6 +301,18 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
                 }
             }
     }
+
+    fun filterMoviesOfFriend(friend: String, matches: List<MatchesModel>) {
+
+        val filteredMovies = mutableSetOf<String>()
+        for (match in matches) {
+            if (match.friends.contains(friend) && !filteredMovies.contains(match.moviename)) {
+                filteredMovies.add(match.moviename)
+            }
+        }
+        _friendMatchtes.value = filteredMovies.map { FriendMatchesModel(it) }.toMutableList()
+    }
+
 
 
 }

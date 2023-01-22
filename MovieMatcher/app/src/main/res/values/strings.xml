@@ -26,6 +26,7 @@
     <string name="please_enter_email">Please enter email</string>
     <string name="please_enter_name">"Please enter name "</string>
     <string name="all_movies_played">All Movies Played</string>
+    <string name="matches_with_friend">Matches with </string>
 
 
 </resources>

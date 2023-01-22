@@ -17,5 +17,7 @@
     <color name="buttonYes">#4B851B</color>
     <color name="ItsAMatch">#00CC9A</color>
     <color name='gold'>#E4C000</color>
+    <color name='silver'>#C0C0C0</color>
+    <color name='lightblack'>#262626</color>
 
 </resources>
