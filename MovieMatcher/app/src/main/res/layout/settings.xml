@@ -12,7 +12,6 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:onClick="selectImage"
-
         android:scaleType="centerCrop"
         android:src="@android:drawable/ic_menu_camera"
         app:layout_constraintBottom_toBottomOf="parent"
