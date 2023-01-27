@@ -29,7 +29,7 @@
         </activity>
 
         <activity
-            android:name=".FriendMatches"
+            android:name=".navigationbar.friends.FriendMatches"
             android:exported="false"
             android:theme="@style/Theme.Design.NoActionBar"
             >

@@ -1,19 +1,16 @@
-package com.example.moviematcher
+package com.example.moviematcher.navigationbar.friends
 
-import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.moviematcher.databinding.ActivityMovieDetailsBinding
+import com.example.moviematcher.MainViewModel
+import com.example.moviematcher.R
 import com.example.moviematcher.databinding.FriendMatchesBinding
-import com.example.moviematcher.navigationbar.matches.MatchesAdapter
+import com.example.moviematcher.navigationbar.NavigationController
 import com.github.ajalt.timberkt.Timber
 
 
@@ -46,6 +43,8 @@ class FriendMatches : AppCompatActivity() {
 
 
 
+
+
         val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
 
@@ -60,4 +59,6 @@ class FriendMatches : AppCompatActivity() {
             }
         )
     }
+
+
 }

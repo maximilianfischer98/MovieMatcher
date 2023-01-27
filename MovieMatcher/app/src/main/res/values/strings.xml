@@ -27,6 +27,15 @@
     <string name="please_enter_name">"Please enter name "</string>
     <string name="all_movies_played">All Movies Played</string>
     <string name="matches_with_friend">Matches with </string>
+    <string name="Username">Username</string>
+    <string name="Name">Name</string>
+    <string name="EMail">E-Mail</string>
+    <string name="Password">Password</string>
+    <string name="create">Create</string>
+    <string name="Add_a_Profil_Picture">Add a Profil Picture</string>
+    <string name="Old_Password">Old Password</string>
+    <string name="New_Password">New Password</string>
+    <string name="Change_your_Password">Change your Password:</string>
 
 
 </resources>

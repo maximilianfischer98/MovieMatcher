@@ -8,8 +8,10 @@ import android.view.*
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.moviematcher.MainApp
+import com.example.moviematcher.MainViewModel
 import com.example.moviematcher.R
 import com.example.moviematcher.databinding.AddfriendBinding
 import com.example.moviematcher.databinding.VideoplayerBinding
@@ -57,6 +59,7 @@ class addFriendFragment: Fragment() {
 
     fun addFriend(friendUserName: String) {
 
+        val viewModel : MainViewModel by activityViewModels()
         var currentusername = ""
         val usernameList = ArrayList<String>()
         val friendList = ArrayList<String>()
@@ -106,6 +109,7 @@ class addFriendFragment: Fragment() {
                         mDatabase.child("users").child(friendUserName).child("friends")
                             .child(currentusername).setValue(currentusername)
 
+                        viewModel.checkIfItIsAMatchBecauUserisNewFriend(friendUserName)
                         Timber.i(null, { "Added new Friend" })
 
                         findNavController().navigate(R.id.friends)

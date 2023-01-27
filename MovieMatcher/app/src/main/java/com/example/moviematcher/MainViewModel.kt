@@ -2,25 +2,14 @@ package com.example.moviematcher
 
 import MatchesModel
 import android.app.Application
-import android.content.ContentValues
 import android.content.Context
-import android.content.Intent
-import android.util.Log
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.*
 import com.example.moviematcher.data.User
-import com.example.moviematcher.databinding.LoginViewBinding
-import com.example.moviematcher.login.LoginScreen
-import com.example.moviematcher.navigationbar.NavigationController
-import com.example.moviematcher.navigationbar.friends.FriendsAdapter
+import com.example.moviematcher.navigationbar.friends.FriendMatchesModel
 import com.example.moviematcher.navigationbar.friends.FriendsModel
-import com.example.moviematcher.navigationbar.matches.MatchesAdapter
-import com.example.moviematcher.navigationbar.settings.settings
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.FirebaseFirestore
@@ -61,6 +50,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     private val _loginResult = MutableLiveData<Boolean>()
     val loginResult : LiveData<Boolean>
         get() = _loginResult
+
 
 
 
@@ -311,6 +301,105 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
             }
         }
         _friendMatchtes.value = filteredMovies.map { FriendMatchesModel(it) }.toMutableList()
+    }
+
+    fun removeFriendDB(friendname: String) {
+        getCurrentUsername { currentUsername ->
+            val mDatabase = FirebaseDatabase.getInstance().reference
+            val friendsRef = mDatabase.child("users").child(currentUsername).child("friends")
+            friendsRef.child(friendname).removeValue()
+
+        }
+        removeMatchBecauseFriendisRemoved(friendname)
+    }
+
+
+
+    fun removeMatchBecauseFriendisRemoved(friendName: String) {
+        getCurrentUsername { currentUsername ->
+            val mDatabase = FirebaseDatabase.getInstance().reference
+            val matchesRef = mDatabase.child("matches")
+            matchesRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {
+                    Timber.e("Failed to get matches from Database")
+                }
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val children = snapshot!!.children
+                    children.forEach {
+                        val username1 = it.child("username1").value.toString()
+                        val username2 = it.child("username2").value.toString()
+                        if (username1 == currentUsername && username2 == friendName ||
+                            username2 == currentUsername && username1 == friendName) {
+                            val matchKey = it.key.toString()
+                            matchesRef.child(matchKey).removeValue()
+                        }
+                    }
+                }
+            })
+        }
+    }
+
+    fun removeMatch(currentMoviename: String) {
+        getCurrentUsername { currentUsername ->
+            val mDatabase = FirebaseDatabase.getInstance().reference
+            val matchesRef = mDatabase.child("matches")
+            matchesRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {
+                    Timber.e("Failed to get matches from Database")
+                }
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val children = snapshot!!.children
+                    children.forEach {
+                        val username1 = it.child("username1").value.toString()
+                        val username2 = it.child("username2").value.toString()
+                        val moviename = it.child("moviename").value.toString()
+                        if (username1 == currentUsername && moviename == currentMoviename  ||
+                            username2 == currentUsername && moviename == currentMoviename) {
+                            val matchKey = it.key.toString()
+                            matchesRef.child(matchKey).removeValue()
+                        }
+                    }
+                }
+            })
+        }
+
+    }
+
+    fun checkIfItIsAMatchBecauUserisNewFriend(friendName: String) {
+        getCurrentUsername { currentUsername ->
+            val mDatabase = FirebaseDatabase.getInstance().reference
+            val usersRef = mDatabase.child("users")
+            usersRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {
+                    Timber.e("Failed to get users from Database")
+                }
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val username1LikedMoviesValue = snapshot.child(currentUsername).child("moviesUserLiked").value
+                    val username2LikedMoviesValue = snapshot.child(friendName).child("moviesUserLiked").value
+                    if (username1LikedMoviesValue == null || username2LikedMoviesValue == null){
+                        Timber.e("moviesUserLiked does not exist for one of the users")
+                        return
+                    }
+                    val username1LikedMovies = username1LikedMoviesValue as HashMap<String,Boolean>
+                    val username2LikedMovies = username2LikedMoviesValue as HashMap<String,Boolean>
+
+                    val matchesRef = mDatabase.child("matches")
+                    val movie1List = username1LikedMovies.keys.toList()
+                    val movie2List = username2LikedMovies.keys.toList()
+                    val commonMovies = movie1List.intersect(movie2List)
+
+                    commonMovies.forEach {
+                        val matchRef = matchesRef.child("$currentUsername-$friendName-$it")
+                        matchRef.child("username1").setValue(currentUsername)
+                        matchRef.child("username2").setValue(friendName)
+                        matchRef.child("moviename").setValue(it)
+                    }
+                }
+            })
+        }
     }
 
 

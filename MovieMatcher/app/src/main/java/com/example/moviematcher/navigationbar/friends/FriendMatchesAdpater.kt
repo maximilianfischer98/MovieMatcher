@@ -1,14 +1,12 @@
-package com.example.moviematcher
+package com.example.moviematcher.navigationbar.friends
 
 import android.content.Intent
-import com.example.moviematcher.navigationbar.friends.FriendsModel
 
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviematcher.databinding.CardFriendMatchesBinding
-import com.example.moviematcher.databinding.CardFriendsBinding
 import com.example.moviematcher.navigationbar.Movies.MovieDetails
 import com.github.ajalt.timberkt.Timber
 
@@ -31,6 +29,8 @@ class FriendMatchesAdapter(private var friendMatches: MutableList<FriendMatchesM
 
 
     override fun getItemCount(): Int = friendMatches.size
+
+
 
 
     class MainHolder(private val binding: CardFriendMatchesBinding) :

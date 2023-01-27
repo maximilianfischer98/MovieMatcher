@@ -1,4 +1,4 @@
-package com.example.moviematcher
+package com.example.moviematcher.navigationbar.friends
 
 
 data class FriendMatchesModel(

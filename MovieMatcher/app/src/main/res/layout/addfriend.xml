@@ -14,7 +14,7 @@
         android:layout_height="74dp"
         android:background="@drawable/edit_text_background"
         android:ems="10"
-        android:hint="Username"
+        android:hint="@string/Username"
         android:inputType="textPersonName"
         android:textColor="@color/white"
         android:textColorHint="@color/white"

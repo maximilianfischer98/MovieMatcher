@@ -6,6 +6,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviematcher.MainViewModel
@@ -41,6 +42,12 @@ class Matches: Fragment() {
         val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(context)
         binding.recyclerView.layoutManager = layoutManager
 
+        val adapter = MatchesAdapter(viewModel.matches.value!!)
+        binding.recyclerView.adapter = adapter
+        val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback(adapter,viewModel))
+        itemTouchHelper.attachToRecyclerView(binding.recyclerView)
+
+
 
         viewModel.matches.observe(
             viewLifecycleOwner,
@@ -52,6 +59,8 @@ class Matches: Fragment() {
                 Timber.i(null, { "Matches List empty" })
             }
         )
+
+
 
 
     }

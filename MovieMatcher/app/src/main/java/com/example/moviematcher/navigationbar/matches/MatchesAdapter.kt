@@ -5,6 +5,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviematcher.MainViewModel
 import com.example.moviematcher.databinding.CardMatchesBinding
@@ -30,6 +31,15 @@ class MatchesAdapter(private var matches: MutableList<MatchesModel>) :
 
     }
 
+    fun removeItem(position: Int) {
+        matches.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
+    fun getMovieName(position: Int): String {
+        return matches[position].moviename
+    }
+
     override fun getItemCount(): Int = matches.size
 
     class MainHolder(private val binding: CardMatchesBinding) :
@@ -47,5 +57,21 @@ class MatchesAdapter(private var matches: MutableList<MatchesModel>) :
             }
 
         }
+    }
+
+
+}
+class SwipeToDeleteCallback(private val adapter: MatchesAdapter, private val viewModel: MainViewModel) : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+
+    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+        return false
+    }
+
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+        val position = viewHolder.adapterPosition
+        val movieName = adapter.getMovieName(position)
+        adapter.removeItem(position)
+        adapter.notifyItemRemoved(position)
+        viewModel.removeMatch(movieName)
     }
 }

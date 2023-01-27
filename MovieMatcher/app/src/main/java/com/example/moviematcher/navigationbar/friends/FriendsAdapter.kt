@@ -6,12 +6,11 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.moviematcher.FriendMatches
+import com.example.moviematcher.MainViewModel
 import com.example.moviematcher.databinding.CardFriendsBinding
-import com.example.moviematcher.navigationbar.Movies.MovieDetails
 import com.github.ajalt.timberkt.Timber
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -19,7 +18,6 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.NonDisposableHandle.parent
 
 
 class FriendsAdapter(private val context: Context,private var friends: MutableList<FriendsModel>) :
@@ -65,6 +63,35 @@ class FriendsAdapter(private val context: Context,private var friends: MutableLi
         })
     }
 
+    fun updateData(newData: List<FriendsModel>) {
+        friends.clear()
+        friends.addAll(newData)
+        notifyDataSetChanged()
+    }
+
+    fun removeItem(position: Int) {
+        try {
+            if (position >= 0 && position < friends.size) {
+                friends.removeAt(position)
+                notifyItemRemoved(position)
+            } else {
+                Timber.e(null,{"Invalid position passed to removeItem method"})
+            }
+        } catch (e: IndexOutOfBoundsException) {
+            Timber.e(null,{"IndexOutOfBoundsException occurred: ${e.message}"})
+        }
+    }
+
+    fun getName(position: Int): String {
+        try {
+            return friends[position].username.toString()
+        } catch (e: IndexOutOfBoundsException) {
+            Timber.e(null,{"IndexOutofBoundsException"})
+            return "ArrayList is Empty"
+        }
+    }
+
+
 
 
     class MainHolder(private val binding: CardFriendsBinding) :
@@ -81,4 +108,21 @@ class FriendsAdapter(private val context: Context,private var friends: MutableLi
         }
     }
 
+}
+
+class SwipeToDeleteCallback(private val adapter: FriendsAdapter, private val viewModel: MainViewModel) : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+
+    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+        return false
+    }
+
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+        val position = viewHolder.adapterPosition
+        println("Aktuelle Adapterposition: ${position}")
+        println("DeleteName " + adapter.getName(position))
+        viewModel.removeFriendDB(adapter.getName(position))
+        adapter.removeItem(position)
+        //adapter.notifyItemRemoved(position)
+
+    }
 }

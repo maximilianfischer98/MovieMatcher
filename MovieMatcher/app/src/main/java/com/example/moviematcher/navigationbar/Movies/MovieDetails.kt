@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.lifecycle.ViewModelProvider
+import com.example.moviematcher.MainViewModel
 import com.example.moviematcher.R
 import com.example.moviematcher.databinding.ActivityMovieDetailsBinding
 import com.example.moviematcher.navigationbar.NavigationController
@@ -22,10 +24,13 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTube
 class MovieDetails : AppCompatActivity() {
 
     private lateinit var binding: ActivityMovieDetailsBinding
+    private lateinit var viewModel: MainViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMovieDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
 
         binding.anbieter.setOnClickListener {
@@ -35,10 +40,11 @@ class MovieDetails : AppCompatActivity() {
                 Timber.i(null, { "Start Netflix Link" })
             }
 
-
         }
 
         setData()
+
+
 
     }
 
